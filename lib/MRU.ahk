@@ -15,7 +15,10 @@ GetRecentDocs()
 	Path := '' ;[]
 	Loop Files, vDirRecent '\*.lnk', 'f'
 	{
-		FileGetShortcut(A_LoopFileFullPath,&vTarget)
+		try FileGetShortcut(A_LoopFileFullPath,&vTarget)
+		catch
+			continue
+
 		if !FileExist(vTarget)
 		|| InStr(FileExist(vTarget), "D")
 			continue

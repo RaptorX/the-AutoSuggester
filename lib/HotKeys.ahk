@@ -14,7 +14,8 @@ up::
 && prompt.Input
 ~backspace::CheckPrompt(Prompt, 'BS')
 
-
+~Lbutton::
+~Rbutton::
 ~^BackSpace::
 ~*Left::
 ~*Right::

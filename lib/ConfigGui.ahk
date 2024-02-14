@@ -106,7 +106,7 @@ if WordLV.GetCount() = 0
 	Note.Opt('-hidden')
 }
 
-ConfigGui.Show()
+; ConfigGui.Show()
 ; setup hotkeys
 SetupHotkeys()
 

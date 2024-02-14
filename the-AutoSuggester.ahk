@@ -1,12 +1,44 @@
-﻿
+
+/*
+This work by the-Automator.com is licensed under CC BY 4.0
+
+Attribution — You must give appropriate credit , provide a link to the license,
+and indicate if changes were made.
+You may do so in any reasonable manner, but not in any way that suggests the licensor
+endorses you or your use.
+No additional restrictions — You may not apply legal terms or technological measures that
+legally restrict others from doing anything the license permits.
+*/
+
 #SingleInstance 
 #Requires AutoHotkey v2.0
+
+;@Ahk2Exe-SetVersion     0.2.0
+;@Ahk2Exe-SetMainIcon    res\lightbulbpencil6.ico
+;@Ahk2Exe-SetProductName ClipHistory
+;@Ahk2Exe-SetDescription ClipHistory Suggestor
+
 #include <sift>
-#Include <ScriptObj\scriptobj>
+#include <MRU>
 #Include <HotKeys>
 #include <NotifyV2>
-#include <MRU>
+#Include <ScriptObject\ScriptObject>
 
+script := {
+	        base : ScriptObj(),
+	     version : '0.1.0',
+	      author : '',
+	       email : '',
+	     crtdate : '',
+	     moddate : '',
+	   resfolder : A_ScriptDir "\res",
+	    iconfile : 'mmcndmgr.dll' , ;A_ScriptDir "\res\UltimateSpybg512.ico",
+	      config : A_ScriptDir "\settings.ini",
+	homepagetext : "the-automator.com/AutoSuggester",
+	homepagelink : "the-automator.com/AutoSuggester?src=app",
+}
+
+#include <ConfigGui>
 Notify.Default.HDText := "AutoSuggester"
 Notify.Default.BDFontSize := 18
 Notify.Default.BDFont := 'Arial Black'
@@ -18,21 +50,6 @@ TraySetIcon A_ScriptDir '\Res\lightbulbpencil6.ico'
 ; todo add DL to fuzzy match 
 ; https://www.autohotkey.com/boards/viewtopic.php?f=6&t=39112&p=182567&hilit=fuzzy#p182567
 
-script := {
-	        base : ScriptObj(),
-			hwnd : 0,
-	     version : "1.0.0",
-	      author : "the-Automator",
-	       email : "joe@the-automator.com",
-	     crtdate : "",
-	     moddate : "",
-	   resfolder : A_ScriptDir "\res",
-	    iconfile : 'mmcndmgr.dll' , ;A_ScriptDir "\res\UltimateSpybg512.ico",
-	      config : A_ScriptDir "\settings.ini",
-	homepagetext : "the-automator.com/AutoSuggester",
-	homepagelink : "the-automator.com/AutoSuggester?src=app",
-	  donateLink : "https://www.paypal.com/donate?hosted_button_id=MBT5HSD9G94N6",
-}
 
 MaxResults := 10 ;maximum number of results to display
 MinChar := 3 ; minimer characters after suggestion triggers 
@@ -44,7 +61,6 @@ SuggestTriggerKeys := '{enter}'
 LVS_NOSCROLL := 0x2000 
 VScroll := 0x200000
 
-#include <ConfigGui>
 script.hwnd := ConfigGui.hwnd
 
 tray := A_TrayMenu

@@ -1,4 +1,4 @@
-
+﻿
 /*
 This work by the-Automator.com is licensed under CC BY 4.0
 
@@ -10,7 +10,7 @@ No additional restrictions — You may not apply legal terms or technological me
 legally restrict others from doing anything the license permits.
 */
 
-#SingleInstance 
+#SingleInstance
 #Requires AutoHotkey v2.0
 
 ;@Ahk2Exe-SetVersion     0.2.0
@@ -95,6 +95,11 @@ main.Show('hide')
 
 Prompt := InputHook('V')
 Prompt.OnChar := CheckPrompt
+
+script.eddID := 96960
+if !ScriptObj.GetLicense()
+	return
+
 Prompt.Start()
 
 DllCall 'RegisterShellHookWindow', 'UInt', Main.hwnd

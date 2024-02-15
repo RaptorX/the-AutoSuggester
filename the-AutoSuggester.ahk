@@ -96,7 +96,7 @@ main.Show('hide')
 Prompt := InputHook('V')
 Prompt.OnChar := CheckPrompt
 
-script.eddID := 96960
+ScriptObj.eddID := 96960
 if !ScriptObj.GetLicense()
 	return
 

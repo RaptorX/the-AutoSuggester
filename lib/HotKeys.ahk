@@ -4,7 +4,6 @@
 Down::
 up::
 {
-	; LV.Modify(1, "+Focus")
 	LV.Modify(2,'+select +focus')
 	main.show()
 
@@ -14,8 +13,8 @@ up::
 && prompt.Input
 ~backspace::CheckPrompt(Prompt, 'BS')
 
-~Lbutton::
-~Rbutton::
+~*Lbutton::
+~*Rbutton::
 ~^BackSpace::
 ~*Left::
 ~*Right::
@@ -29,6 +28,7 @@ up::
 
 #HotIf WinActive(main) ;LV.Visible
 Enter::
+NumpadEnter::
 Tab::
 {
 	send '{enter up}'
@@ -40,11 +40,7 @@ Tab::
 	
 	clipsave := A_Clipboard
 	A_Clipboard := ''
-	; if !ClipWait(1)
-	; 	msgbox 'unable to empty clicpboard'
-
 	A_Clipboard := InputNewLInes(LV.GetText(row,1)) . ' ' 
-	; ToolTip Text
 	if !ClipWait(1)
 		msgbox 'unable to set clicpboard'
 
@@ -82,9 +78,6 @@ InputNewLInes(str) ; '¶'
 }
 #Hotif
 
-
-; ^+a::onofftoggle() ; toggle on/off
-
 SingleLine(*) ;Send '{U+B6}' ;PILCROW sign / paragraph mark
 {
 	clipsave := A_Clipboard
@@ -97,7 +90,6 @@ SingleLine(*) ;Send '{U+B6}' ;PILCROW sign / paragraph mark
 	sleep 100
 	A_Clipboard := clipsave
 }
-
 
 changeclineReturns(sep:='¶')
 {
@@ -133,11 +125,8 @@ InsertWordtoDefaultList(words)
 		if InStr(FileRead(DefaultList,'utf-8'),word)
 		{
 			Notify.show('word "' word '" already exist in Default Word List' )
-			; AddTxtFile([DefaultList])
-			; fileobj.Close()
 			continue
 		} 
-		;FileAppend(Trim(word) '`n',DefaultList,'utf-8')	
 		fileobj.WriteLine(Trim(word))
 	
 	}

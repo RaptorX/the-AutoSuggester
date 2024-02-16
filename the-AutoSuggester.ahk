@@ -99,7 +99,7 @@ Prompt.OnChar := CheckPrompt
 ScriptObj.eddID := 96960
 if !ScriptObj.GetLicense()
 	return
-
+ConfigGui.Show()
 Prompt.Start()
 
 DllCall 'RegisterShellHookWindow', 'UInt', Main.hwnd

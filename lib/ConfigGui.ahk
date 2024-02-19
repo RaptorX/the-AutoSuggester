@@ -44,9 +44,9 @@ ConfigGui.AddRadio( 'h12 +Center  Checked', 'Case-Insensitive').OnEvent('click',
 
 ConfigGui.AddGroupBox('ym x+m+50 w300 h' 26 * 6, 'Hotkeys')
 ToggleOn := ConfigGui.AddRadio( 'xp+10 yp+25 Section h12 +Center vToggle Checked', 'On')
-ToggleOn.OnEvent('click',eventhandler)
+ToggleOn.OnEvent('click',onofftoggle)
 ToggleOff := ConfigGui.AddRadio( 'x+m h12 +Center ', 'Off')
-ToggleOff.OnEvent('click',eventhandler)
+ToggleOff.OnEvent('click',onofftoggle)
 
 ConfigGui.AddCheckBox("x+m+14 vonoffWK", "Win") ;.onEvent('click',eventhandler)
 ConfigGui.AddHotkey( "x+m yp-3 vonoffHK")       ;.onEvent('change',eventhandler)
@@ -106,7 +106,7 @@ if WordLV.GetCount() = 0
 	Note.Opt('-hidden')
 }
 
-ConfigGui.Show()
+; ConfigGui.Show()
 ; setup hotkeys
 SetupHotkeys()
 
@@ -366,6 +366,11 @@ ChangeSearchOpt(*)
 			ConfigGui.Options := 'RIGHT'
 			Option := 'RIGHT'
 	} 
+	Switch(ctrl.Case)
+	{
+		Case 1: ConfigGui.Options := Format('{:U}',ConfigGui.Options)
+		Case 2: ConfigGui.Options := Format('{:L}',ConfigGui.Options)
+	}
 	Notify.show({BDText:Option,HDFontColor: (ConfigGui.Toggle ? 'Green' : 'Red')})
 }
 
@@ -384,16 +389,17 @@ SetupHotkeys(*)
 					'Addword',AddtoWordlist,
 					'Single',SingleLine,
 					'SerOpt',ChangeSearchOpt)
+	notice := 0
 	for i, current_hk in ['onoff','Addword','Single','SerOpt']
 	{
-
+		oldHKCheck := NewHKCheck := 0
 		wk := iniread(Script.config,'Hotkeys',current_hk 'WK',0)
 		HK := iniread(Script.config,'Hotkeys',current_hk 'HK',0)
 		if WK
 			HK := '#' HK
 		if HK
 			Hotkey HK, getfunc[current_hk], 'OFF'
-
+		oldHKCheck := HK
 		if ConfigGui[current_hk 'HK'].value
 		{
 			if ConfigGui[current_hk 'WK'].value
@@ -406,10 +412,16 @@ SetupHotkeys(*)
 				IniWrite(ConfigGui[current_hk 'WK'].value,Script.config,'Hotkeys',current_hk 'WK')
 				IniWrite(ConfigGui[current_hk 'HK'].value,Script.config,'Hotkeys',current_hk 'HK')
 				Hotkey HK, getfunc[current_hk], 'ON'
+				NewHKCheck := HK
 			}
 		}
+		if oldHKCheck 
+		&& NewHKCheck
+		&& oldHKCheck != NewHKCheck
+			notice := 1
 	}
-	Notify.show({BDText:'Hotkeys are set',HDFontColor:'Green'})
+	if notice
+		Notify.show({BDText:'Hotkeys are set',HDFontColor:'Green'})
 }
 
 eventhandler(*)
@@ -446,22 +458,4 @@ eventhandler(*)
 		Case 1: ConfigGui.Options := Format('{:U}',ConfigGui.Options)
 		Case 2: ConfigGui.Options := Format('{:L}',ConfigGui.Options)
 	}
-
-
-	onofftoggle()
-	; Switch(ctrl.Toggle)
-	; {
-	; 	Case 1:
-	; 		ConfigGui.Toggle := true
-	; 		Prompt.start() ; start input hook
-	; 		tray.check('On/Off Toggle                   Ctrl+Shift+a')
-	; 		;Notify.show({BDText:'On',HDFontColor:'Green'})
-	; 	Case 2:
-	; 		ConfigGui.Toggle := false
-	; 		Prompt.stop() ; stop input hook
-	; 		main.hide()   ; hide suggetion
-	; 		LV.Delete()   ; reset suggetion list
-	; 		tray.Uncheck('On/Off Toggle                   Ctrl+Shift+a')
-	; 		;Notify.show({BDText:'Off',HDFontColor:'Red'})
-	; }
 }

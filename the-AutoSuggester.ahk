@@ -13,7 +13,7 @@ legally restrict others from doing anything the license permits.
 #SingleInstance
 #Requires AutoHotkey v2.0
 
-;@Ahk2Exe-SetVersion     0.2.0
+;@Ahk2Exe-SetVersion     0.2.3
 ;@Ahk2Exe-SetMainIcon    res\lightbulbpencil6.ico
 ;@Ahk2Exe-SetProductName ClipHistory
 ;@Ahk2Exe-SetDescription ClipHistory Suggestor
@@ -26,11 +26,11 @@ legally restrict others from doing anything the license permits.
 
 script := {
 	        base : ScriptObj(),
-	     version : '0.1.0',
+	     version : '0.2.3',
 	      author : '',
 	       email : '',
-	     crtdate : '',
-	     moddate : '',
+	     crtdate : 'February 07, 2024',
+	     moddate : 'February 19, 2024',
 	   resfolder : A_ScriptDir "\res",
 	    iconfile : 'mmcndmgr.dll' , ;A_ScriptDir "\res\UltimateSpybg512.ico",
 	      config : A_ScriptDir "\settings.ini",
